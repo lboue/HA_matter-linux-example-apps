@@ -91,26 +91,8 @@ jobs:
             example-prefix: linux-arm64-
         include:
           - examples: >-
-              air-purifier
-              air-quality-sensor
-              all-clusters
-              all-clusters-minimal
-              chip-cert
               chip-tool
-              contact-sensor
-              dishwasher
               energy-management
-              light
-              lock
-              microwave-oven
-              ota-provider
-              ota-requestor
-              refrigerator
-              rvc
-              thermostat
-              tv-app
-              tv-casting-app
-              water-leak-detector-app
             variant: -libnl-no-ble-no-wifi-no-thread-boringssl
 
     runs-on: ${{ matrix.arch.runner }}

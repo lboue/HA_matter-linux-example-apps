@@ -61,7 +61,10 @@ jobs:
       - name: Bootstrap
         working-directory: ./connectedhomeip/
         run: bash scripts/bootstrap.sh -p all,linux
-      - name: ZAP Code pre-generation
+      - name: Bootstrap
+        working-directory: ./connectedhomeip/
+        run: git pull
+      - name: Git pull
         working-directory: ./connectedhomeip/
         run: scripts/run_in_build_env.sh "scripts/codepregen.py ./zzz_pregenerated/"
       - name: Create Matter SDK tar

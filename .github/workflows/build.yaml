@@ -139,7 +139,7 @@ jobs:
       - name: Extract Matter SDK from tar
         working-directory: ./
         run: |
-          apt update && apt install zstd
+          apt update && apt install -y zstd libevent-dev
           rm -rf connectedhomeip/
           tar -xaf ./connectedhomeip.tar.zst --use-compress-program=zstdmt .
           git config --global --add safe.directory "*"

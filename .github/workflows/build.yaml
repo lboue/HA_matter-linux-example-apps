@@ -98,7 +98,6 @@ jobs:
               contact-sensor
               dishwasher
               energy-gateway
-              energy-management
               evse
               light
               lock

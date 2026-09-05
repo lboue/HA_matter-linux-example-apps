@@ -91,8 +91,7 @@ jobs:
           - examples: >-
               air-purifier
               air-quality-sensor
-              all-clusters
-              all-clusters-minimal
+              all-devices
               chip-cert
               chip-tool
               closure
@@ -100,6 +99,7 @@ jobs:
               dishwasher
               energy-gateway
               energy-management
+              evse
               light
               lock
               microwave-oven
@@ -112,6 +112,7 @@ jobs:
               thermostat
               tv-app
               tv-casting-app
+              water-heater
               water-leak-detector
             variant: -libnl-no-ble-no-wifi-no-thread-boringssl
 

@@ -1,0 +1,47 @@
+diff --git a/examples/refrigerator-app/linux/main.cpp b/examples/refrigerator-app/linux/main.cpp
+index b8c57b9b..8be8724c 100644
+--- a/examples/refrigerator-app/linux/main.cpp
++++ b/examples/refrigerator-app/linux/main.cpp
+@@ -49,12 +49,37 @@ void ApplicationInit()
+     EndpointId kRefEndpointId           = 1;
+     EndpointId kColdCabinetEndpointId   = 2;
+     EndpointId kFreezeCabinetEndpointId = 3;
+-    SetTreeCompositionForEndpoint(kRefEndpointId);
+-    SetParentEndpointForEndpoint(kColdCabinetEndpointId, kRefEndpointId);
+-    SetParentEndpointForEndpoint(kFreezeCabinetEndpointId, kRefEndpointId);
++    CHIP_ERROR err                      = SetTreeCompositionForEndpoint(kRefEndpointId);
++    if (err != CHIP_NO_ERROR)
++    {
++        ChipLogError(NotSpecified, "SetTreeCompositionForEndpoint failed: %" CHIP_ERROR_FORMAT, err.Format());
++        return;
++    }
++    err = SetParentEndpointForEndpoint(kColdCabinetEndpointId, kRefEndpointId);
++    if (err != CHIP_NO_ERROR)
++    {
++        ChipLogError(NotSpecified, "SetParentEndpointForEndpoint failed: %" CHIP_ERROR_FORMAT, err.Format());
++        return;
++    }
++    err = SetParentEndpointForEndpoint(kFreezeCabinetEndpointId, kRefEndpointId);
++    if (err != CHIP_NO_ERROR)
++    {
++        ChipLogError(NotSpecified, "SetParentEndpointForEndpoint failed: %" CHIP_ERROR_FORMAT, err.Format());
++        return;
++    }
+     // set TagList
+-    SetTagList(kColdCabinetEndpointId, Span<const Clusters::Descriptor::Structs::SemanticTagStruct::Type>(refrigeratorTagList));
+-    SetTagList(kFreezeCabinetEndpointId, Span<const Clusters::Descriptor::Structs::SemanticTagStruct::Type>(freezerTagList));
++    err = SetTagList(kColdCabinetEndpointId, Span<const Clusters::Descriptor::Structs::SemanticTagStruct::Type>(refrigeratorTagList));
++    if (err != CHIP_NO_ERROR)
++    {
++        ChipLogError(NotSpecified, "SetTagList failed: %" CHIP_ERROR_FORMAT, err.Format());
++        return;
++    }
++    err = SetTagList(kFreezeCabinetEndpointId, Span<const Clusters::Descriptor::Structs::SemanticTagStruct::Type>(freezerTagList));
++    if (err != CHIP_NO_ERROR)
++    {
++        ChipLogError(NotSpecified, "SetTagList failed: %" CHIP_ERROR_FORMAT, err.Format());
++        return;
++    }
+ 
+     app::Clusters::TemperatureControl::SetInstance(&sAppSupportedTemperatureLevelsDelegate);
+ }

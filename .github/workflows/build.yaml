@@ -91,14 +91,14 @@ jobs:
           - examples: >-
               air-purifier
               air-quality-sensor
-              all-clusters
-              all-clusters-minimal
+              all-devices
               chip-cert
               chip-tool
+              closure
               contact-sensor
               dishwasher
               energy-gateway
-              energy-management
+              evse
               light
               lock
               microwave-oven
@@ -111,6 +111,7 @@ jobs:
               thermostat
               tv-app
               tv-casting-app
+              water-heater
               water-leak-detector
             variant: -libnl-no-ble-no-wifi-no-thread-boringssl
 
@@ -137,7 +138,7 @@ jobs:
       - name: Extract Matter SDK from tar
         working-directory: ./
         run: |
-          apt update && apt install zstd
+          apt update && apt install -y zstd libevent-dev
           rm -rf connectedhomeip/
           tar -xaf ./connectedhomeip.tar.zst --use-compress-program=zstdmt .
           git config --global --add safe.directory "*"
@@ -147,10 +148,16 @@ jobs:
         run: |
           mkdir bin/
           for example in ${{ matrix.examples }} ; do
+                    # all-devices-app doesn't declare chip_code_pre_generated_directory
+                    # (no ZAP pre-gen support), so --pregen-dir fails --fail-on-unused-args.
+                    pregen_args="--pregen-dir ./zzz_pregenerated"
+                    if [ "$example" = "all-devices" ]; then
+                      pregen_args=""
+                    fi
                     ./scripts/run_in_build_env.sh \
                         "./scripts/build/build_examples.py \
                             --target ${{ matrix.arch.example-prefix }}${example}${{ matrix.variant }} \
-                            --pregen-dir ./zzz_pregenerated \
+                            $pregen_args \
                             build \
                         "
                     find out/ -maxdepth 2 -type f -executable -exec cp {} bin/ \;
